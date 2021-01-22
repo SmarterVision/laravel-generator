@@ -27,7 +27,7 @@
           <a class="nav-link" href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index') !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.$MODEL_NAME_SNAKE$_table')}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.create') !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.$MODEL_NAME_SNAKE$_create')}}</a>
+          <a class="nav-link active" href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.create') !!}"><i class="fas fa-plus mr-2"></i>{{trans('lang.$MODEL_NAME_SNAKE$_create')}}</a>
         </li>
       </ul>
     </div>
@@ -36,7 +36,7 @@
         @include('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.show_fields')
 
         <!-- Back Field -->
-        <div class="form-group col-12 text-right">
+        <div class="form-group col-12 text-md-right">
           <a href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index') !!}" class="btn btn-default"><i class="fa fa-undo"></i> {{trans('lang.back')}}</a>
         </div>
       </div>

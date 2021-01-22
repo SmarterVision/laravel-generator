@@ -1,6 +1,7 @@
 <?php
 
 namespace InfyOm\Generator\Common;
+use Illuminate\Support\Str;
 
 class GeneratorFieldRelation
 {
@@ -24,27 +25,27 @@ class GeneratorFieldRelation
         $modelName = $this->inputs[0];
         switch ($this->type) {
             case '1t1':
-                $functionName = camel_case($modelName);
+                $functionName = Str::camel($modelName);
                 $relation = 'hasOne';
                 $relationClass = 'HasOne';
                 break;
             case '1tm':
-                $functionName = camel_case(str_plural($modelName));
+                $functionName = Str::camel(Str::plural($modelName));
                 $relation = 'hasMany';
                 $relationClass = 'HasMany';
                 break;
             case 'mt1':
-                $functionName = camel_case($modelName);
+                $functionName = Str::camel($modelName);
                 $relation = 'belongsTo';
                 $relationClass = 'BelongsTo';
                 break;
             case 'mtm':
-                $functionName = camel_case(str_plural($modelName));
+                $functionName = Str::camel(Str::plural($modelName));
                 $relation = 'belongsToMany';
                 $relationClass = 'BelongsToMany';
                 break;
             case 'hmt':
-                $functionName = camel_case(str_plural($modelName));
+                $functionName = Str::camel(Str::plural($modelName));
                 $relation = 'hasManyThrough';
                 $relationClass = 'HasManyThrough';
                 break;

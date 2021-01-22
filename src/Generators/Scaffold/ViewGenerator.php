@@ -219,7 +219,7 @@ class ViewGenerator extends BaseGenerator
         }
         return $result;
     }
-    
+
     private function getLangArray(){
         $mSnake = $this->commandData->config->mSnake;
         $lang = [
@@ -231,7 +231,7 @@ class ViewGenerator extends BaseGenerator
             $mSnake."_create" => $this->getTransArray('Create '.$this->commandData->config->mHuman),
         ];
         foreach ($this->commandData->fields as $field) {
-            $title = preg_replace('/-|_/',' ',title_case($field->name));
+            $title = preg_replace('/-|_/',' ',Str::title($field->name));
             if($field->inIndex || $field->inForm){
                 $lang[$mSnake.'_'.$field->name] = $this->getTransArray($title);
             }
@@ -246,7 +246,7 @@ class ViewGenerator extends BaseGenerator
     private function generateFields()
     {
         $this->htmlFields = [];
-        $startSeparator = '<div style="flex: 50%;max-width: 50%;padding: 0 4px;" class="column">';
+        $startSeparator = '<div class="d-flex flex-column col-sm-12 col-md-6">';
         $endSeparator = '</div>';
 
         foreach ($this->commandData->fields as $field) {
@@ -362,7 +362,7 @@ class ViewGenerator extends BaseGenerator
         $this->htmlFields = [];
 //        $this->commandData = new CommandData($this->commandData, CommandData::$COMMAND_TYPE_API_SCAFFOLD);
 //        $this->commandData->commandType = CommandData::$COMMAND_TYPE_API_SCAFFOLD;
-        $startSeparator = '<div style="flex: 50%;max-width: 50%;padding: 0 4px;" class="column">';
+        $startSeparator = '<div class="d-flex flex-column col-sm-12 col-md-6">';
         $endSeparator = '</div>';
 
         foreach ($fields as $field) {

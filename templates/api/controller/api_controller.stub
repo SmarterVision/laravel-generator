@@ -11,7 +11,6 @@ use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Illuminate\Support\Facades\Response;
 use Prettus\Repository\Exceptions\RepositoryException;
-use Flash;
 
 $DOC_CONTROLLER$
 class $MODEL_NAME$APIController extends Controller
@@ -31,7 +30,7 @@ class $MODEL_NAME$APIController extends Controller
             $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new RequestCriteria($request));
             $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new LimitOffsetCriteria($request));
         } catch (RepositoryException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
         $$MODEL_NAME_PLURAL_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->all();
 

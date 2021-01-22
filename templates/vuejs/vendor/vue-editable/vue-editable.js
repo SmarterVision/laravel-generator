@@ -8,7 +8,7 @@
 				input.focus();
 				var len = input.value.length;
 				if (document.selection) {
-					var sel = input.createTextRange();
+					var sel = input.createToptionnge();
 					sel.moveStart('character', len);
 					sel.collapse();
 					sel.select();
@@ -25,25 +25,25 @@
 						target.innerHTML = value;
 					}
 					//input.removeEventListener("blur", null, false);
-					input.removeEventListener("keypress", update, false);					
+					input.removeEventListener("keypress", update, false);
 				};
 
 				var reinit = function() {
-					if (value != this.value && this.value != '') 
+					if (value != this.value && this.value != '')
 						target.innerHTML = value;
 					e.stopImmediatePropagation();
 					e.preventDefault();
 					input.removeEventListener("blur", reinit, false);
 				}
 
-				input.addEventListener("blur", update, false); 
+				input.addEventListener("blur", update, false);
 				input.addEventListener('keypress', function (e) {
 				    var key = e.which || e.keyCode;
 				    if (key === 13) {
 						update();
 			    	 	input.removeEventListener("blur", update, false);
 				    }
-				});					
+				});
 			}
 		}
 	}

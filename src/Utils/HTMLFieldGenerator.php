@@ -3,6 +3,7 @@
 namespace InfyOm\Generator\Utils;
 
 use InfyOm\Generator\Common\GeneratorField;
+use Illuminate\Support\Str;
 
 class HTMLFieldGenerator
 {
@@ -29,7 +30,7 @@ class HTMLFieldGenerator
                 } else {
                     $fieldTemplate = get_template('scaffold.fields.select', $templateType);
                 }
-                if (starts_with($field->htmlValues[0], '$')) {
+                if (Str::startsWith($field->htmlValues[0], '$')) {
                     $fieldTemplate = str_replace(
                         '$INPUT_ARR$',
                         $field->htmlValues[0],
@@ -37,7 +38,7 @@ class HTMLFieldGenerator
                     );
                     $fieldTemplate = str_replace(
                         '$INPUT_ARR_SELECTED$',
-                        str_plural($field->htmlValues[0]) . 'Selected',
+                        Str::plural($field->htmlValues[0]) . 'Selected',
                         $fieldTemplate
                     );
                 } else {
@@ -105,7 +106,7 @@ class HTMLFieldGenerator
                 } else {
                     $fieldTemplate = get_template('scaffold.custom_fields.select', $templateType);
                 }
-                if (starts_with($field->htmlValues[0], '$')) {
+                if (Str::startsWith($field->htmlValues[0], '$')) {
                     $fieldTemplate = str_replace(
                         '$INPUT_ARR$',
                         $field->htmlValues[0],
@@ -113,7 +114,7 @@ class HTMLFieldGenerator
                     );
                     $fieldTemplate = str_replace(
                         '$INPUT_ARR_SELECTED$',
-                        str_plural($field->htmlValues[0]) . 'Selected',
+                        Str::plural($field->htmlValues[0]) . 'Selected',
                         $fieldTemplate
                     );
                 } else {

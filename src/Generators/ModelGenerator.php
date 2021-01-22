@@ -3,6 +3,7 @@
 namespace InfyOm\Generator\Generators;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use InfyOm\Generator\Common\CommandData;
 use InfyOm\Generator\Common\GeneratorFieldRelation;
 use InfyOm\Generator\Utils\FileUtil;
@@ -192,12 +193,12 @@ class ModelGenerator extends BaseGenerator
                 return 'string';
             case '1t1':
             case 'mt1':
-                return '\\'.$this->commandData->config->nsModel.'\\'.$relation->inputs[0].' '.camel_case($relation->inputs[0]);
+                return '\\'.$this->commandData->config->nsModel.'\\'.$relation->inputs[0].' '.Str::camel($relation->inputs[0]);
             case '1tm':
                 return '\Illuminate\Database\Eloquent\Collection'.' '.$relation->inputs[0];
             case 'mtm':
             case 'hmt':
-                return '\Illuminate\Database\Eloquent\Collection'.' '.camel_case($relation->inputs[0]);
+                return '\Illuminate\Database\Eloquent\Collection'.' '.Str::camel($relation->inputs[0]);
             default:
                 return $db_type;
         }
@@ -231,7 +232,7 @@ class ModelGenerator extends BaseGenerator
 
         foreach ($this->commandData->fields as $field) {
             if (!empty($field->validations)) {
-                if (str_contains($field->validations, 'required')) {
+                if (Str::contains($field->validations, 'required')) {
                     $requiredFields[] = $field->name;
                 }
             }

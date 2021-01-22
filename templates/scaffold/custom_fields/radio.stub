@@ -1,7 +1,7 @@
 <!-- $FIELD_NAME_TITLE$ Field -->
-<div class="form-group row ">
+<div class="form-group align-items-baseline d-flex flex-column flex-md-row">
   <div class="checkbox icheck">
-    <label class="col-9 ml-2 form-check-inline">
+    <label class="col-md-9 ml-2 form-check-inline">
       {!! Form::radio('$FIELD_NAME$', "$VALUE$", $FIELD_VALUE$) !!} <span class="ml-2">$LABEL$</span>
     </label>
   </div>
