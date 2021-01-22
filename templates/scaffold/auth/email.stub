@@ -27,7 +27,7 @@
     <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
   </div>
   <!-- /.login-logo -->
-  <div class="card">
+  <div class="card shadow-sm">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Enter Email to reset password</p>
 

@@ -4,8 +4,10 @@ namespace $NAMESPACE_DATATABLES$;
 
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use App\Models\CustomField;
-use Yajra\DataTables\Services\DataTable;
+use Yajra\DataTables\DataTableAbstract;
 use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Builder;
+use Yajra\DataTables\Services\DataTable;
 use Barryvdh\DomPDF\Facade as PDF;
 
 class $MODEL_NAME$DataTable extends DataTable
@@ -15,11 +17,12 @@ class $MODEL_NAME$DataTable extends DataTable
      * @var array
      */
     public static $customFields = [];
+
     /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
+     * @return DataTableAbstract
      */
     public function dataTable($query)
     {
@@ -39,7 +42,7 @@ class $MODEL_NAME$DataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Post $model
+     * @param $MODEL_NAME$ $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query($MODEL_NAME$ $model)
@@ -50,7 +53,7 @@ class $MODEL_NAME$DataTable extends DataTable
     /**
      * Optional method if you want to use html builder.
      *
-     * @return \Yajra\DataTables\Html\Builder
+     * @return Builder
      */
     public function html()
     {

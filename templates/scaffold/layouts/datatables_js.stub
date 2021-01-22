@@ -1,28 +1,27 @@
-<script type="text/javascript" src="{{asset('plugins/datatables/jquery.dataTables.js')}}"></script>
-<script type="text/javascript" src="{{asset('plugins/datatables/dataTables.bootstrap4.js')}}"></script>
-<script type="text/javascript" src="{{asset('plugins/datatables/buttons/dataTables.buttons.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('plugins/datatables/buttons.js') }}"></script>
-<script type="text/javascript" src="{{asset('plugins/datatables/buttons/buttons.colVis.min.js')}}"></script>
-<script type="text/javascript" src="{{ asset('plugins/datatables/buttons.server-side.js') }}"></script>
-<script type="text/javascript">
-    function initICheck(){
-        $('input[type="checkbox"].permission').on('ifCreated', function (event) {
-            var checkbox = $(this);
-            var roleId = $(this).data('role-id');
-            var permission = $(this).data('permission');
-            $.ajax({
-                method: "GET",
-                url: "{{url('permissions/role-has-permission')}}",
-                data: {roleId: roleId, permission: permission},
-                dataType: "json"
-            })
-                .done(function (msg) {
-                    if (msg.result) {
-                        checkbox.iCheck('check');
-                    }
+<!-- DataTables -->
+<script type="text/javascript" src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('vendor/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('vendor/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script type="text/javascript" src="{{asset('vendor/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/datatables-colreorder/js/dataTables.colReorder.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/datatables-rowgroup/js/dataTables.rowGroup.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/datatables-rowgroup/js/rowGroup.bootstrap4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/datatables-fixedcolumns/js/dataTables.fixedColumns.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/datatables-fixedcolumns/js/fixedColumns.bootstrap4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
 
-                }).always(function () {
-            });
+<script type="text/javascript">
+    function initICheck() {
+        $('input[type="checkbox"].permission').each(function (event) {
+            console.log("each");
+            var checkbox = $(this);
+            var roleName = $(this).data('role-name');
+            var permission = $(this).data('permission');
+            if (permission.roles.indexOf(roleName) > -1) {
+                checkbox.attr("checked", "checked");
+            }
         });
 
         $('.icheck input').iCheck({
