@@ -3,6 +3,7 @@
 namespace InfyOm\Generator\Generators\Scaffold;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use InfyOm\Generator\Common\CommandData;
 use InfyOm\Generator\Generators\BaseGenerator;
 use InfyOm\Generator\Utils\FileUtil;
@@ -72,6 +73,7 @@ class ControllerGenerator extends BaseGenerator
                     }
                     $selectFields[] = fill_template([
                         '$RELATION_MODEL$' => preg_split('/\./', $field->title)[0],
+                        '$RELATION_MODEL_CAMEL$' => Str::camel(preg_split('/\./', $field->title)[0]),
                         '$RELATION_MODEL_TITLE$' => preg_split('/\./', $field->title)[1],
                     ], $selectFieldTemplate);
 
@@ -79,7 +81,7 @@ class ControllerGenerator extends BaseGenerator
 
                     /*Multiple select generation*/
                     if($field->dbInput === 'hidden,mtm'){
-                        
+
                         $selectedAddFields[] = fill_template([
                             '$RELATION_MODEL_PLURAL$' => $field->name
                         ], $selectedAddFieldTemplate);
@@ -87,11 +89,11 @@ class ControllerGenerator extends BaseGenerator
                         $selectedEditFields[] = fill_template([
                             '$RELATION_MODEL_PLURAL$' => $field->name
                         ], $selectedEditFieldTemplate);
-                        
+
                         $selectsUpdateFields[] = fill_template([
                             '$RELATION_MODEL_PLURAL$' => $field->name,
                         ], $selectsUpdateFieldTemplate);
-                        
+
                         $relations .= get_send_data($field->name.'Selected','$'.$field->name.'Selected');
                     }
                 }
@@ -118,7 +120,7 @@ class ControllerGenerator extends BaseGenerator
         $selectedAddFields = implode('' . infy_nl_tab(1, 4), $selectedAddFields);
         $selectedEditFields = implode('' . infy_nl_tab(1, 4), $selectedEditFields);
         $selectsUpdateFields = implode('' . infy_nl_tab(1, 4), $selectsUpdateFields);
-        
+
         $templateData = str_replace('$SELECT_RELATIONS$', $fields, $templateData);
         $templateData = str_replace('$SELECT_RELATIONS_PARAM$', $relations, $templateData);
         $templateData = str_replace('$SELECTED_RELATIONS_ADD$', $selectedAddFields, $templateData);
@@ -157,7 +159,7 @@ class ControllerGenerator extends BaseGenerator
         $relations = '';
 
         foreach ($this->commandData->fields as $field) {
-            
+
             if (!$field->inIndex) {
                 continue;
             }
@@ -192,6 +194,7 @@ class ControllerGenerator extends BaseGenerator
                     $this->commandData->fieldNamesMapping['$FIELD_TITLE$'] = 'name';
                     $selectsFieldsStr .= fill_template([
                         '$RELATION_MODEL_PLURAL$' => $field->name,
+                        '$RELATION_MODEL_CAMEL$' => Str::camel(preg_split('/\./', $field->title)[0]),
                         '$RELATION_MODEL_TITLE$' => preg_split('/\./', $field->title)[1],
                     ], $selectsFieldTemplate);
 

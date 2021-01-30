@@ -247,7 +247,7 @@ if (!function_exists('get_relation')) {
         }elseif($for === 'view'){
             $relation = '->with("${MODEL}",$${MODEL})';
         }
-        $model = preg_split('/\./', $field->title)[0];
+        $model = Str::camel(preg_split('/\./', $field->title)[0]);
         $relation = str_replace('${MODEL}', $model, $relation);
         return $relation;
     }
@@ -284,6 +284,7 @@ function fill_add_repositories_template($fieldNames, $templateData, $templateTyp
 
         $addRepositoryTemplate = fill_template([
             '$RELATION_MODEL$' => Str::studly($modelName),
+            '$RELATION_MODEL_CAMEL$' => Str::camel($modelName),
             '$RELATION_MODEL_SNAKE$' => Str::snake($modelName)
         ], $addRepositoryTemplate);
 

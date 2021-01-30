@@ -70,7 +70,7 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
 
                         break;
                     case 'Illuminate\Database\Eloquent\Relations\BelongsTo':
-                        $model_key = $model->$key()->getQualifiedForeignKey();
+                        $model_key = $model->$key()->getQualifiedForeignKeyName();
                         $new_value = Arr::get($attributes, $key, null);
                         $new_value = $new_value == '' ? null : $new_value;
                         $model->$model_key = $new_value;
