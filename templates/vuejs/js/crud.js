@@ -21,7 +21,7 @@ Vue.component('vuetable-pagination-simple', VuetablePaginationSimple)
 
 var E_SERVER_ERROR = 'Error communicating with the server';
 
-Vue.config.debug = true
+Vue.config.debug = true        
 
 Vue.component('custom-error', {
   props: ['field', 'validator', 'message'],
@@ -44,10 +44,10 @@ var vm = new Vue({
         flashTypeDanger: 'danger',
         flashType: null,
         submitMessage: "",
-        url: apiUrl,
+        url: apiUrl,           
         row: objectRow,
         searchFor: '',
-        columns: tableColumns,
+        columns: tableColumns,     
         sortOrder: {
             field: fieldInitOrder,
             direction: 'asc'
@@ -60,7 +60,7 @@ var vm = new Vue({
             { name: 'edit-item', label: '', icon: 'glyphicon glyphicon-pencil', class: 'btn btn-warning', option: {title: 'Edit', 'data-toggle':"tooltip", 'data-placement': "top"} },
             { name: 'delete-item', label: '', icon: 'glyphicon glyphicon-remove', class: 'btn btn-danger', option: {title: 'Delete', 'data-toggle':"tooltip", 'data-placement': "right" } }
         ],
-        moreParams: []
+        moreParams: []                                 
     },
     watch: {
         'perPage': function(val, oldVal) {
@@ -77,14 +77,14 @@ var vm = new Vue({
             this.row._token = token;
             if (this.method == 'PATCH' || this.method == 'POST') {
                 if (this.method == 'PATCH') {
-                    actionUrl = this.url.update + this.row.id;
-                }
+                    actionUrl = this.url.update + this.row.id;                    
+                }  
             } else if (this.method == 'DELETE') {
-                actionUrl = this.url.delete + this.row.id;
+                actionUrl = this.url.delete + this.row.id;                
             }
             //this.$http({actionUrl, this.method, data}).then(this.success, this.failed);
             this.sendData(actionUrl, this.method, this.row)
-                .then(this.success, this.failed);
+                .then(this.success, this.failed);            
         },
         getData: function () {
             this.sendData(this.url.show + this.row.id, 'GET')
@@ -92,12 +92,12 @@ var vm = new Vue({
         },
         sendData: function(url, method, data = {}) {
             return this.$http({url: url, method: method, data: data});
-        },
+        },            
         cleanData: function() {
             this.row = objectRow;
             this.flashMessage = '';
             this.flashType = '';
-        },
+        },            
         success: function(response) {
             if (response.data.data) {
                 var data = response.data.data;
@@ -121,23 +121,23 @@ var vm = new Vue({
             for (var fieldAttr in errors) {
                 var errorMgs = errors[fieldAttr];
                 for (var msg in errorMgs) {
-                    errorMessages.push({ field: fieldAttr, message: errorMgs[msg] });
+                    errorMessages.push({ field: fieldAttr, message: errorMgs[msg] });                       
                 }
             }
-            vm.$setValidationErrors(errorMessages);
+            vm.$setValidationErrors(errorMessages);     
         },
         closeModal: function() {
             this.formModal = this.showModal = this.deleteModal = this.infoModal = false;
-            this.cleanData();
+            this.cleanData();  
         },
         visible: function(field) {
             for (var column in this.columns) {
-                if (this.columns[column].name == field)
+                if (this.columns[column].name == field) 
                     return this.columns[column].visible;
             }
             return false;
         },
-        modal: function(type) {
+        modal: function(type) {                    
             this.method = type;
             if (type=='PATCH' || type=='POST') {
                 this.formModal = true;
@@ -193,7 +193,7 @@ var vm = new Vue({
                     dropdownClass: 'form-control'
                 });
             }
-        }
+        }                 
     },
     events: {
         'vuetable:row-changed': function(data) {
@@ -203,11 +203,11 @@ var vm = new Vue({
         'vuetable:cell-dblclicked': function(item, field, event) {
             this.$editable(event, function(value){
                 item = JSON.stringify(item);
-                var data = JSON.parse(item);
+                var data = JSON.parse(item);  
                 data._token = token;
                 data[field.name] = value;
                 vm.sendData(vm.url.update + data.id, 'PATCH', data).then(
-                function (response) {
+                function (response) {                    
                     event.target.setAttribute("style", "background-color: #f5f5f5");
                 }, function (response) {
                     vm.flashMessage = vm.defaultErrorMessage;
@@ -218,7 +218,7 @@ var vm = new Vue({
                     vm.modal('INFO');
                     event.target.setAttribute("style", "background-color: red");
                     event.target.setAttribute("title", response.data.errors[field.name]);
-                });
+                });             
             });
          },
         'vuetable:action': function(action, data) {
@@ -230,7 +230,7 @@ var vm = new Vue({
             } else if (action == 'edit-item') {
                 this.row.id = data.id;
                 this.getData();
-                this.modal('PATCH');
+                this.modal('PATCH');                
             } else if (action == 'delete-item') {
                 this.row.id = data.id;
                 this.modal('DELETE');

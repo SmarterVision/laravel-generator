@@ -3,16 +3,21 @@
 namespace $NAMESPACE_CONTROLLER$;
 
 use $NAMESPACE_DATATABLES$\$MODEL_NAME$DataTable;
-use $NAMESPACE_REQUEST$;
 use $NAMESPACE_REQUEST$\Create$MODEL_NAME$Request;
 use $NAMESPACE_REQUEST$\Update$MODEL_NAME$Request;
 use $NAMESPACE_REPOSITORY$\$MODEL_NAME$Repository;
 use App\Repositories\CustomFieldRepository;
 $ADD_USED$
+use Exception;
 use Flash;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
+use Illuminate\View\View;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class $MODEL_NAME$Controller extends Controller
@@ -49,7 +54,7 @@ class $MODEL_NAME$Controller extends Controller
     /**
      * Show the form for creating a new $MODEL_NAME$.
      *
-     * @return Response
+     * @return Application|Factory|Response|View
      */
     public function create()
     {
@@ -68,7 +73,7 @@ class $MODEL_NAME$Controller extends Controller
      *
      * @param Create$MODEL_NAME$Request $request
      *
-     * @return Response
+     * @return Application|RedirectResponse|Redirector|Response
      */
     public function store(Create$MODEL_NAME$Request $request)
     {
@@ -92,18 +97,16 @@ class $MODEL_NAME$Controller extends Controller
      *
      * @param  int $id
      *
-     * @return Response
+     * @return Application|Factory|Response|View
      */
     public function show($id)
     {
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            Flash::error('$MODEL_NAME_HUMAN$ not found');
-
+            Flash::error(__('lang.not_found',['operator' => __('lang.$MODEL_NAME_SNAKE$')]));
             return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
         }
-
         return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.show')->with('$MODEL_NAME_CAMEL$', $$MODEL_NAME_CAMEL$);
     }
 
@@ -112,7 +115,7 @@ class $MODEL_NAME$Controller extends Controller
      *
      * @param  int $id
      *
-     * @return Response
+     * @return Application|RedirectResponse|Redirector|Response
      */
     public function edit($id)
     {
@@ -131,7 +134,6 @@ class $MODEL_NAME$Controller extends Controller
         if($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
-
         return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.edit')->with('$MODEL_NAME_CAMEL$', $$MODEL_NAME_CAMEL$)->with("customFields", isset($html) ? $html : false)$SELECT_RELATIONS_PARAM$;
     }
 
@@ -141,14 +143,14 @@ class $MODEL_NAME$Controller extends Controller
      * @param  int              $id
      * @param Update$MODEL_NAME$Request $request
      *
-     * @return Response
+     * @return Application|RedirectResponse|Redirector|Response
      */
     public function update($id, Update$MODEL_NAME$Request $request)
     {
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            Flash::error('$MODEL_NAME_HUMAN$ not found');
+            Flash::error(__('lang.not_found',['operator' => __('lang.$MODEL_NAME_SNAKE$')]));
             return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
         }
         $input = $request->all();
@@ -164,9 +166,7 @@ class $MODEL_NAME$Controller extends Controller
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }
-
         Flash::success(__('lang.updated_successfully',['operator' => __('lang.$MODEL_NAME_SNAKE$')]));
-
         return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
     }
 
@@ -175,14 +175,14 @@ class $MODEL_NAME$Controller extends Controller
      *
      * @param  int $id
      *
-     * @return Response
+     * @return Application|RedirectResponse|Redirector|Response
      */
     public function destroy($id)
     {
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            Flash::error('$MODEL_NAME_HUMAN$ not found');
+            Flash::error(__('lang.not_found',['operator' => __('lang.$MODEL_NAME_SNAKE$')]));
 
             return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
         }
@@ -190,7 +190,6 @@ class $MODEL_NAME$Controller extends Controller
         $this->$MODEL_NAME_CAMEL$Repository->delete($id);
 
         Flash::success(__('lang.deleted_successfully',['operator' => __('lang.$MODEL_NAME_SNAKE$')]));
-
         return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
     }
 

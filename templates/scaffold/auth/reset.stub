@@ -73,7 +73,7 @@
 
 
         <div class="row mb-2">
-          <div class="col-9 ml-auto">
+          <div class="col-md-9 ml-auto">
             <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
           </div>
           <!-- /.col -->
