@@ -1,1 +1,0 @@
-$$RELATION_MODEL_CAMEL$ = $this->$RELATION_MODEL_CAMEL$Repository->pluck('$RELATION_MODEL_TITLE$','id');

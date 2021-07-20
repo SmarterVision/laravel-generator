@@ -1,7 +1,0 @@
-<!-- 'Boolean $FIELD_NAME_TITLE$ Field' -->
-<div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-    {!! Form::label('$FIELD_NAME$', trans("lang.$MODEL_NAME_SNAKE$_$FIELD_NAME$"),['class' => 'col-md-3 control-label text-md-right mx-1']) !!} {!! Form::hidden('$FIELD_NAME$', 0, ['id'=>"hidden_$FIELD_NAME$"]) !!}
-    <div class="col-md-9 icheck-{{setting('theme_color')}}">
-        {!! Form::checkbox('$FIELD_NAME$', 1, null) !!} <label for="$FIELD_NAME$"></label>
-    </div>
-</div>

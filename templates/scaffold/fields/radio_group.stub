@@ -1,5 +1,0 @@
-<!-- $FIELD_NAME_TITLE$ Field -->
-<div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-  {!! Form::label('$FIELD_NAME$', trans("lang.$MODEL_NAME_SNAKE$_$FIELD_NAME$"),['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-  $RADIO_BUTTONS$
-</div>

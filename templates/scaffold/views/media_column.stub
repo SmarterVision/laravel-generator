@@ -1,3 +1,0 @@
-->editColumn('$FIELD_NAME$',function($$MODEL_NAME_CAMEL$){
-    return getMediaColumn($$MODEL_NAME_CAMEL$,'$FIELD_NAME$');
-})
