@@ -5,6 +5,9 @@ namespace InfyOm\Generator\Common;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
+use Prettus\Repository\Events\RepositoryEntityUpdated;
+use Prettus\Repository\Events\RepositoryEntityUpdating;
+use Prettus\Validator\Contracts\ValidatorInterface;
 
 abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepository
 {
@@ -62,7 +65,7 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
 //                        if(count(array_values($new_values)) === 0){
 //                            $pivot = $model->$key()->detach(array_values($new_values));
 //                        }else{
-                            $pivot = $model->$key()->sync(array_values($new_values));
+                        $pivot = $model->$key()->sync(array_values($new_values));
                         //}
                         if ((count($pivot['attached']) + count($pivot['detached']) + count($pivot['updated'])) > 0) {
                             $model->touch();
@@ -109,5 +112,98 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
         }
 
         return $model;
+    }
+
+    /**
+     * Delete multiple entities by given criteria.
+     *
+     * @param array $where
+     *
+     * @return int
+     */
+    public function updateWhereIn(array $attributes,string $column,array $values)
+    {
+        $this->applyScope();
+
+        if (!is_null($this->validator)) {
+            // we should pass data that has been casts by the model
+            // to make sure data type are same because validator may need to use
+            // this data to compare with data that fetch from database.
+            $model = $this->model->newInstance();
+            $model->setRawAttributes([]);
+            $model->setAppends([]);
+            if ($this->versionCompare($this->app->version(), "5.2.*", ">")) {
+                $attributes = $model->forceFill($attributes)->makeVisible($this->model->getHidden())->toArray();
+            } else {
+                $model->forceFill($attributes);
+                $model->makeVisible($this->model->getHidden());
+                $attributes = $model->toArray();
+            }
+
+            $this->validator->with($attributes)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+        }
+
+        $temporarySkipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+
+        $this->model->whereIn($column, $values);
+
+        event(new RepositoryEntityUpdating($this, $this->model->getModel()));
+
+        $updated = $this->model->update($attributes);
+
+        event(new RepositoryEntityUpdated($this, $this->model->getModel()));
+
+        $this->skipPresenter($temporarySkipPresenter);
+        $this->resetModel();
+
+        return $updated;
+    }
+
+
+    /**
+     * Delete multiple entities by given criteria.
+     *
+     * @param array $where
+     *
+     * @return int
+     */
+    public function updateWhere(array $attributes,array $where)
+    {
+        $this->applyScope();
+
+        if (!is_null($this->validator)) {
+            // we should pass data that has been casts by the model
+            // to make sure data type are same because validator may need to use
+            // this data to compare with data that fetch from database.
+            $model = $this->model->newInstance();
+            $model->setRawAttributes([]);
+            $model->setAppends([]);
+            if ($this->versionCompare($this->app->version(), "5.2.*", ">")) {
+                $attributes = $model->forceFill($attributes)->makeVisible($this->model->getHidden())->toArray();
+            } else {
+                $model->forceFill($attributes);
+                $model->makeVisible($this->model->getHidden());
+                $attributes = $model->toArray();
+            }
+
+            $this->validator->with($attributes)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+        }
+
+        $temporarySkipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+
+        $this->applyConditions($where);
+
+        event(new RepositoryEntityUpdating($this, $this->model->getModel()));
+
+        $updated = $this->model->update($attributes);
+
+        event(new RepositoryEntityUpdated($this, $this->model->getModel()));
+
+        $this->skipPresenter($temporarySkipPresenter);
+        $this->resetModel();
+
+        return $updated;
     }
 }
